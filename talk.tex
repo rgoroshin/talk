@@ -29,6 +29,12 @@
 \end{frame}
 
 \begin{frame}
+\begin{center} 
+\huge \color{blue} \emph{Projects Before 2010}
+\end{center} 
+\end{frame} 
+
+\begin{frame}
 \begin{columns}[T] % align columns
 \begin{column}{.33\textwidth}
 \color{blue}\rule{\linewidth}{2pt}
@@ -67,7 +73,13 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Computer Vision without Learning}
+\begin{center} 
+\huge \color{blue} \emph{Deep Learning for Computer Vision}
+\end{center} 
+\end{frame} 
+
+\begin{frame}
+\frametitle{Classic Computer Vision Pipeline}
 \begin{center} 
 \includegraphics[scale=0.31]{./Figures/old_pipeline.pdf} \\ \vspace{0.5cm} 
 \includegraphics[scale=0.6]{./Figures/detection.pdf} \hspace{1.5cm} 
@@ -79,7 +91,6 @@ The engineer must manually plug all the ``leaks'' in the pipeline \\ \vspace{0.5
 
 \begin{frame}
 \frametitle{Computer Vision as of 2012}
-
 \begin{columns}[T] % align columns
 \begin{column}{.4\textwidth}
 \begin{itemize} 
@@ -104,22 +115,256 @@ The engineer must manually plug all the ``leaks'' in the pipeline \\ \vspace{0.5
 \end{frame} 
 
 \begin{frame}
+\frametitle{Example: Human Pose Estimation}
+\tiny{ \color{blue} \textbf{Tompson, Goroshin, Jain, LeCun, Bregler. \emph{CVPR 2015}}}
+\begin{center} 
+\includegraphics[scale=0.40]{./Figures/joints.pdf}
+\includegraphics[scale=0.40]{./Figures/human.pdf}\\
+\includegraphics[scale=0.50]{./Figures/network.pdf}\\
+\includegraphics[scale=0.70]{./Figures/network2.pdf}\\
+\end{center} 
+\end{frame} 
+
+\begin{frame}
+\begin{center} 
+\huge \color{blue} \emph{Unsupervised Feature Learning}
+\end{center} 
+\end{frame} 
+
+\begin{frame}
 \frametitle{Generically useful Feature Representations} 
 \begin{itemize} 
-\item{Experiments show that low-level features are transferable across tasks}
-\item{High-level features tend to be more task-specific, i.e. the last layer must make the data linearly separable}
+\item{Experiments show that feature hierarchies are transferable}
+\item{Natural learning machines don't need }
 \item{Is there an objective that allows us to learn high-level task-agnostic representations?}
 \item{Leverage virtually infinite amount of unlabeled data \bf $\rightarrow$ reduce training time, obtain better generalization, and enable on-line learning/adaptation}
 \end{itemize} 
 \centering
 \includegraphics[scale=0.25]{./Figures/weights.jpeg} \\
-\tiny{Krizhevsky et al. 2012}
+\emph{\tiny{Krizhevsky et al. NIPS 2012}} 
 \end{frame} 
 
 \begin{frame} 
 \frametitle{Representation Learning}
+\includegraphics[scale=0.03]{./Figures/cat.jpg} $\rightarrow$ 
+\includegraphics[scale=0.25]{./Figures/mattfeatures.jpeg}\\
+\centering
+$\downarrow$\\
+\centering
+$[\mbox{objects, orientations, positions, lighting, etc.}]$\\ \vspace{2cm} 
+\emph{\tiny{Zeiler and Fergus. ECCV 2014}}
 \end{frame} 
 
+\begin{frame} 
+\frametitle{Desirable Properties of Features}
+\underline{Unsupervised Learning Problem:} \emph{Implicitly} learn features that facilitate solving \emph{many} problems simultaneously \\ \vspace{0.125cm}
+\underline{Approach:} guess useful properties of features, then experimentally validate their usefulness on multiple problems
+\begin{itemize}
+\item{Informativeness $\rightarrow$ reconstruction, max-likelihood}
+\item{Independence $\rightarrow$ Independent Component Analysis, Sparsity}
+\item{Invariance $\rightarrow$ metric learning, Slow Feature Analysis, classifiers}
+\item{Equivariance $\rightarrow$ linearization of transformations} 
+\end{itemize} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Sparse Features - Informativeness, Independence}
+\begin{center} 
+\includegraphics[scale=0.6]{./Figures/sparse2.pdf} \hspace{0.2cm}
+\includegraphics[scale=0.30]{./Figures/sparse_filters.png}
+\end{center} 
+\begin{eqnarray}
+\nonumber 
+L(x,W_e,W_d)= \sum_{i} \left(\underbrace{\|W_d ReLU(W_e x_i) - x_i\|^2}_{Reconstruction} +  \alpha \underbrace{ReLU(W_e x_i)}_{Sparsity} \right)
+\end{eqnarray}
+\begin{itemize} 
+\item{Learns an over-complete basis which reconstructs the data by linearly combining a small subset of the available elements}
+\item{Represents a local-linear model of the data manifold}
+\item{Features are roughly independent}
+\item{Highly unstable representation}
+\end{itemize} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Similarity Metric Learning - Invariance}
+\centering
+\includegraphics[scale=0.4]{./Figures/drlim_diag.png}
+\begin{equation} 
+\nonumber
+L(x_i,x_j,W)=\left\{
+                \begin{array}{ll}
+                 \|G_W(x_i) - G_W(x_{j})\|_p, &\text{if $i$ similar to $j$}  \\
+                 \max(0,m-\|G_W(x_i) - G_W(x_{j})\|_p) &\text{if $i$ dissimilar to $j$}
+                \end{array}
+              \right.
+\end{equation} 
+\begin{columns}[T] % align columns
+\begin{column}{.6\textwidth}
+\begin{itemize} 
+\item{Global structure can be learned via local (stochastic) comparisons}
+\item{Repulsive term does not guarantee informative features (low-dimensional visualization)} 
+\item{$G_w()$ is the learned representation}   
+\end{itemize} 
+\emph{\tiny{Hadsell et al. CVPR 2006}}
+\end{column}%
+\begin{column}{.4\textwidth}
+\includegraphics[scale=0.2]{./Figures/mnist.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\begin{center} 
+\huge \color{blue} \emph{Unsupervised Learning from Video}
+\end{center} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{The Role of Time}
+\begin{center} 
+\includegraphics[scale=0.4]{./Figures/time.pdf}
+\end{center} 
+\begin{itemize} 
+\item{Temporal sequences reveal neighbors in the \emph{latent} space}
+\item{Natural videos are one-dimensional trajectories on the natural image manifold}
+\item{Time shows you who your neighbors are}
+\end{itemize} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Toy Example 1}
+\begin{center} 
+\includegraphics[scale=0.25]{./Figures/toy_video.png}
+\end{center} 
+\begin{itemize} 
+\item{Consider video sequences of a single pixel moving with \emph{no overlap between successive frames}}
+\item{Extrinsic measures (e.g. $L^2$) of similarity are useless}
+\end{itemize} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Toy Example 2}
+\begin{columns}[T] % align columns
+\begin{column}{.5\textwidth}
+DrLIM learns intrinsic factors of variation when trained on video \\ \vspace{0.25cm} 
+\includegraphics[scale=0.20]{./Figures/drlim_data.png} 
+\begin{itemize} \tiny \item{Learning features that decrease the variability between temporally adjacent samples are known as ``slow features''} 
+\tiny \item{Without additional constraints slow features collapse to constants}
+\end{itemize} 
+\end{column} 
+\begin{column}{.5\textwidth}
+\hspace{0.25cm} \tiny{Color-map Yaw} \hspace{0.8cm} \tiny{Color-map Roll} \\
+\includegraphics[scale=0.20]{./Figures/drlim.png}
+\end{column}
+\end{columns}
+\end{frame} 
+
+\begin{frame}
+\begin{center} 
+\huge \color{blue} \emph{Unsupervised Learning of Spatiotemporally Coherent Metrics}
+\end{center} 
+\end{frame}
+
+\begin{frame}
+\frametitle{The Model}
+\underline{Description:} Sparse auto-encoder whose activations are $L^2$-pooled into local groups, on which slowness regularization is applied.
+\begin{center} 
+\includegraphics[scale=0.50,trim = 15 350 290 39, clip]{./Figures/Project1/diagram.pdf} \\
+{\small
+\begin{eqnarray}
+\nonumber 
+L(x_t,x_{t'},W_e,W_d)= \sum_{\tau = \{t,t'\}} \left(\underbrace{\|W_d ReLU(W_e x_\tau) - x_\tau\|}_{\mbox{\tiny Reconstruction}} +  \alpha \underbrace{ReLU(W_e x_\tau)}_{\mbox{\tiny Sparsity}} \right) \\
+\nonumber
+ + \underbrace{\beta \sum_{i=1}^K \left| \|ReLU(W_ex_t)\|^{P_i} - \|ReLU(W_ex_{t'})\|^{P_i} \right|}_{\mbox{\tiny Slowness after local $L^2$ pooling}}
+\end{eqnarray}}
+\end{center} 
+\end{frame} 
+
+\begin{frame}
+\frametitle{Intuitive Interpretation}
+\centering
+\includegraphics[scale=0.65]{./Figures/SF2.pdf} \\
+\begin{itemize} 
+\item{\underline{Reconstruction} $\rightarrow$ promotes informative features}
+\item{\underline{Sparsity} $\rightarrow$ promotes independent features}
+\item{\underline{Slowness} $\rightarrow$ promotes invariant features}
+\end{itemize} 
+\end{frame} 
+
+\begin{frame}
+\frametitle{Fourier Interpretation}
+$\rightarrow$ Fully connected features learned by training on natural videos patches mainly learn (local) \emph{translation invariance} \\
+$\rightarrow$ Train convolutional features to learn a richer class of invariants
+\begin{center} 
+\begin{figure}
+\includegraphics[scale=0.38]{./Figures/Project1/slow_dec_pooling_sub.png}
+\caption{Without sparsity, $\alpha = 0$}
+\end{figure} 
+\begin{figure}
+\includegraphics[scale=0.38]{./Figures/Project1/slow_dec_l1_pooling.png}
+\caption{With sparsity, $\alpha > 0$}
+\end{figure} 
+\end{center} 
+\end{frame} 
+
+\begin{frame}
+\frametitle{Dataset and Hyper-Parameter Selection}
+\underline{Problem:} what is the correct trade-off between informativeness and invariance for natural data? In other words, how do we set the hyper-parameters $\alpha$ and $\beta$ without supervision? 
+\begin{center} 
+\begin{figure}
+\includegraphics[scale=0.40]{./Figures/Project1/youtube.png}
+\caption{Weakly segmented scenes from our YouTube dataset}
+\end{figure}
+\end{center}
+\underline{Temporally Coherent Feature Space:} a feature space which induces the nearest neighbors to be the temporal neighbors (temporal invariance)   
+\end{frame} 
+
+\begin{frame}
+\frametitle{Visualizing Temporal Coherence}
+\begin{center} 
+\begin{figure}
+\includegraphics[scale=0.40]{./Figures/Project1/NNtime1.pdf}\\ \vspace{0.25cm} 
+\includegraphics[scale=0.40]{./Figures/Project1/NNtime2.pdf}
+\end{figure}
+\end{center}  
+\end{frame} 
+
+\begin{frame}
+\frametitle{Convolutional $1^{st}$ Layer Features}
+\begin{center} 
+\begin{figure} 
+\includegraphics[scale=1.5]{./Figures/Project1/filters_slow.png} \hspace{0.5cm} 
+\includegraphics[scale=0.45]{./Figures/Project1/act_large_slow.png}
+\caption{Left: filters, Right: frequency of activations over dataset}
+\end{figure} 
+\end{center} 
+\end{frame} 
+
+\begin{frame}
+\frametitle{Visualizing Semantic Coherence}
+\begin{center} 
+\begin{figure}
+\includegraphics[scale=0.40]{./Figures/Project1/NNclass1.pdf}\\ \vspace{0.25cm} 
+\includegraphics[scale=0.40]{./Figures/Project1/NNclass2.pdf}
+\end{figure}
+\end{center}  
+\end{frame} 
+
+\begin{frame}
+\frametitle{Precision-Recall}
+\begin{center} 
+\begin{figure}
+\includegraphics[scale=0.40]{./Figures/Project1/AUC_time-crop.pdf}
+\includegraphics[scale=0.40]{./Figures/Project1/AUC_class-crop.pdf} 
+\end{figure}
+\end{center}  
+\end{frame} 
+
+\begin{frame}
+\frametitle{Correlation between Temporal and Class AUCs}
+\centering
+\includegraphics[scale=0.4]{./Figures/Project1/scatter-crop.pdf}\\
+\end{frame} 
 \end{document}
 
 
