@@ -9,9 +9,11 @@
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{caption}
+\usepackage{multirow}
 \usepackage{lmodern}
 \usepackage{subcaption}
 \usepackage{epstopdf}
+\DeclareMathOperator*{\argmax}{arg\,max}
 
 
 \makeatletter
@@ -135,7 +137,7 @@ The engineer must manually plug all the ``leaks'' in the pipeline \\ \vspace{0.5
 \frametitle{Generically useful Feature Representations} 
 \begin{itemize} 
 \item{Experiments show that feature hierarchies are transferable}
-\item{Natural learning machines don't need }
+\item{Natural learning machines don't need $10^6$ labeled examples}
 \item{Is there an objective that allows us to learn high-level task-agnostic representations?}
 \item{Leverage virtually infinite amount of unlabeled data \bf $\rightarrow$ reduce training time, obtain better generalization, and enable on-line learning/adaptation}
 \end{itemize} 
@@ -267,7 +269,7 @@ DrLIM learns intrinsic factors of variation when trained on video \\ \vspace{0.2
 
 \begin{frame}
 \frametitle{The Model}
-\underline{Description:} Sparse auto-encoder whose activations are $L^2$-pooled into local groups, on which slowness regularization is applied.
+\underline{Description:} Sparse auto-encoder whose activations are $L^2$-pooled in local groups, on which slowness regularization is applied.
 \begin{center} 
 \includegraphics[scale=0.50,trim = 15 350 290 39, clip]{./Figures/Project1/diagram.pdf} \\
 {\small
@@ -320,7 +322,7 @@ $\rightarrow$ Train convolutional features to learn a richer class of invariants
 \end{frame} 
 
 \begin{frame}
-\frametitle{Visualizing Temporal Coherence}
+\frametitle{Visualizing Temporal Coherence - YouTube}
 \begin{center} 
 \begin{figure}
 \includegraphics[scale=0.40]{./Figures/Project1/NNtime1.pdf}\\ \vspace{0.25cm} 
@@ -335,13 +337,14 @@ $\rightarrow$ Train convolutional features to learn a richer class of invariants
 \begin{figure} 
 \includegraphics[scale=1.5]{./Figures/Project1/filters_slow.png} \hspace{0.5cm} 
 \includegraphics[scale=0.45]{./Figures/Project1/act_large_slow.png}
-\caption{Left: filters, Right: frequency of activations over dataset}
 \end{figure} 
 \end{center} 
+\underline{Left:} Activations are pooled \emph{across feature maps} in non-overlapping groups of four \\
+\underline{Right:} Activation frequency for corresponding feature over entire dataset
 \end{frame} 
 
 \begin{frame}
-\frametitle{Visualizing Semantic Coherence}
+\frametitle{Visualizing Semantic Coherence - CIFAR10}
 \begin{center} 
 \begin{figure}
 \includegraphics[scale=0.40]{./Figures/Project1/NNclass1.pdf}\\ \vspace{0.25cm} 
@@ -356,6 +359,8 @@ $\rightarrow$ Train convolutional features to learn a richer class of invariants
 \begin{figure}
 \includegraphics[scale=0.40]{./Figures/Project1/AUC_time-crop.pdf}
 \includegraphics[scale=0.40]{./Figures/Project1/AUC_class-crop.pdf} 
+\caption{\underline{Temporal PR:} Percent of nearest neighbors from the same \textbf{\emph{scene}} \\
+\hspace{1.15cm}\underline{Class PR:} Percent of nearest neighbors from the same \textbf{\emph{class}} }
 \end{figure}
 \end{center}  
 \end{frame} 
@@ -363,9 +368,234 @@ $\rightarrow$ Train convolutional features to learn a richer class of invariants
 \begin{frame}
 \frametitle{Correlation between Temporal and Class AUCs}
 \centering
-\includegraphics[scale=0.4]{./Figures/Project1/scatter-crop.pdf}\\
+\includegraphics[scale=0.5]{./Figures/Project1/scatter-crop.pdf}\\
+This demonstrates that a \emph{semantically} coherent metric can be learned implicitly by maximizing \emph{temporal coherence}.  
 \end{frame} 
+
+\begin{frame}
+\frametitle{Shortcomings}
+\begin{itemize}
+\item{Layer-wise greedy training} 
+\item{Too many hyper-parameters require costly optimization} 
+\item{Partial reconstruction means that the final features may have lost information}
+\end{itemize} 
+\end{frame} 
+
+\begin{frame}
+\begin{center} 
+\huge \color{blue} \emph{Learning to Linearize under Uncertainty}
+\end{center} 
+\end{frame}
+
+\begin{frame} 
+\frametitle{Features that Linearize Temporal Trajectories}
+\begin{center} 
+\includegraphics[scale=0.27, trim= 15 350 200 39, clip]{./Figures/Project2/linearize_manifold.pdf} 
+\end{center} 
+Let $X = \{...,x^{t-1},x^t,x^{t+1},...\}$ be a sequence of frames and denote the code for frame $x^t$ by $z^t = F_W(x^t)$, 
+where $F_W()$ and $G_W()$ denote the encoder and decoder, respectively. \\
+\begin{equation}
+\nonumber
+L = \frac{1}{2}\| G_W(\mathbf [2 ~~-1] \begin{bmatrix}z^t&z^{t-1}\end{bmatrix}^T) - x^{t+1} \|^2_2
+\label{eqn:loss} 
+\end{equation} 
+\vspace{0.430cm} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Features that Linearize Temporal Trajectories}
+\begin{center} 
+\includegraphics[scale=0.27, trim= 15 350 200 39, clip]{./Figures/Project2/linearize_manifold.pdf} 
+\end{center} 
+Let $X = \{...,x^{t-1},x^t,x^{t+1},...\}$ be a sequence of frames and denote the code for frame $x^t$ by $z^t = F_W(x^t)$, 
+where $F_W()$ and $G_W()$ denote the encoder and decoder, respectively. \\
+\begin{equation}
+\nonumber
+L = \frac{1}{2}\| G_W(\mathbf [2 ~~-1] \begin{bmatrix}z^t&z^{t-1}\end{bmatrix}^T) - x^{t+1} \|^2_2 - \lambda \frac{(z^t - z^{t-1})^T(z^{t+1} - z^t)}{\|z^t-z^{t-1}\| \|z^{t+1} - z^t\|}
+\label{eqn:loss} 
+\end{equation} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Toy Example: 3-Pixel Movie}
+\includegraphics[scale=1]{./Figures/Project2/fig1.pdf} 
+\includegraphics[scale=0.5]{./Figures/Project2/fig2.pdf} \\
+\begin{center} 
+What is the linearized feature of this data set? \\
+\textbf{Implicitly learn to track common patterns in the image}
+\end{center} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Phase-Pooling Operator}
+\begin{itemize} 
+\item{Define a soft version of the $max$ (``what'') and $argmax$ (``where'') operators applied to each pool group}
+\end{itemize} 
+\begin{equation}
+\nonumber
+m_k = \sum_{N_k} z(f,x,y)\!~ \frac{e^{\beta z(f,x,y)}}{\sum_{N_k}e^{\beta z(f\prime, x\prime, y\prime )}}\, \approx\underset{N_k}\max~z(f,x,y)
+\label{eqn:mag}
+\end{equation}
+\begin{itemize} 
+\item{Assuming that the activation pattern within each neighborhood is approximately unimodal}
+\item{The vector $\mathbf p_k$ approximates the local coordinates in the feature topology at which the max activation value occurred}
+\end{itemize} 
+\begin{equation}
+\nonumber
+\mathbf p_k = \sum_{N_k}
+\begin{bmatrix}
+f \\ x \\ y
+\end{bmatrix}
+\frac{e^{\beta z(f,x,y)}}{\sum_{N_k}e^{\beta z(f\prime, x\prime, y\prime )}} \approx\underset{ N_k}\argmax~z(f,x,y)
+\label{eqn:phase}
+\end{equation}  
+\begin{itemize} 
+\item{We can now back-propagate through the location of the activation, i.e. the ``switch locations''}
+\end{itemize} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Complete Architecture}
+\begin{center}
+\includegraphics[scale=0.38]{./Figures/Project2/network.pdf}  
+\end{center} 
+The predicted magnitude and phase are defined as follows: 
+\begin{eqnarray}
+\nonumber
+m^{t+1}=&\frac{m^t + m^{t-1}}{2}&\\
+\label{eqn:magpred} 
+\nonumber
+\mathbf p^{t+1}=&2\mathbf p^t-\mathbf p^{t-1}& 
+\label{eqn:phasepred} 
+\end{eqnarray} 
+Define an ``\emph{un-pooling}'' operation of the decoder that produces reconstructed activation maps by placing the magnitudes $m$ at appropriate locations given by the phases $\mathbf p$.
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Visualization of $1^{st}$-Layer Features}
+\begin{center} 
+\includegraphics[scale=0.6]{./Figures/Project2/pretty_decoder.png} \hspace{1cm} 
+\includegraphics[scale=0.6]{./Figures/Project2/dec200.png} 
+\end{center} 
+\underline{Left:} Phase-pooling in non-overlapping groups (synthetic video) \\
+\underline{Right:} Phase-pooling in overlapping groups (natural video) 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Addressing Uncertainty}
+\begin{itemize}
+\item If multiple outcomes are present in the training set then minimizing the $L^2$ distance to these multiple outcomes induces the network to predict the \emph{average outcome} 
+\item Introduce latent variables $\delta$ to the prediction architecture that are not deterministic functions of the input
+\item The $\delta$-corrected code is defined as:
+\begin{equation} 
+\nonumber 
+\label{eqn:delta}
+\hat z^{t+1}_\delta =  z^{t} + (W_1 \delta) \odot [2~~-1]\begin{bmatrix}z^t&z^{t-1}\end{bmatrix}^T
+\end{equation}  
+\end{itemize}
+\centering
+\includegraphics[scale=0.5]{./Figures/Project2/delta_ambiguity.pdf} \\
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Addressing Uncertainty}
+The $\delta$-corrected loss is: 
+\begin{equation} 
+\nonumber 
+\label{eqn:delta_loss}
+L = \min\limits_\delta \| G_W(\hat z_\delta ^{t+1}) - x^{t+1} \|^2_2 - \lambda \frac{(z^t - z^{t-1})^T(z^{t+1} - z^t)}{\|z^t-z^{t-1}\| \|z^{t+1} - z^t\|} 
+\end{equation} 
+\end{frame} 
+
+\begin{frame}  
+\frametitle{Architectures}
+\begin{table} 
+\begin{tiny}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{| c | c | c | c | }
+	\hline
+    & Encoder & Prediction & Decoder \\
+    \hline
+    \multirow{2}{*}{Shallow Architecture 1} &
+    Conv+ReLU $64\times9\times9$ &
+    Average Mag. &
+    \multirow{2}{*}{Conv $64\times9\times9$} \\
+    & Phase Pool 4 & Linear Extrap. Phase & \\
+    \hline
+    \multirow{2}{*}{Shallow Architecture 2} &
+    Conv+ReLU $64\times9\times9$ &
+    Average Mag. &
+    \multirow{2}{*}{Conv $64\times9\times9$} \\
+    & Phase Pool 4 stride 2 &
+    Linear Extrap. Phase & \\
+    \hline
+    \multirow{6}{*}{Deep Architecture 1} &
+    & \multirow{6}{*}{None} &
+    FC+ReLU $\mathbf{8192}\times8192$\\
+    &Conv+ReLU $16\times9\times9$ & &
+    Reshape $32\times16\times16$\\
+    &Conv+ReLU $32\times9\times9$ & &
+    SpatialPadding $8\times8$ \\
+    &FC+ReLU $8192\times4096$ & &
+    Conv+ReLU $16\times9\times9$\\
+    &&&SpatialPadding $8\times8$\\
+    &&&Conv $1\times9\times9$ \\
+    \hline
+    \multirow{6}{*}{Deep Architecture 2} &
+    &\multirow{6}{*}{Linear Extrapolation}&
+    FC+ReLU $4096\times8192$\\
+    & Conv+ReLU $16\times9\times9$ & &
+    Reshape $32\times16\times16$\\
+    &Conv+ReLU $32\times9\times9$ &&
+    SpatialPadding $8\times8$\\
+    &FC+ReLU $8192\times4096$&&
+    Conv+ReLU $16\times9\times9$\\
+    &&&SpatialPadding $8\times8$\\
+    &&&Conv $1\times9\times9$\\
+    \hline
+    \multirow{7}{*}{Deep Architecture 3} &&
+    & Unpool $8\times8$\\
+    & Conv+ReLU $16\times9\times9$ &&
+    FC+ReLU $4096\times8192$\\
+    & Conv+ReLU $32\times9\times9$ &
+    Average Mag. &
+    Reshape $32\times16\times16$\\
+    & FC+ReLU $8192\times4096$ &
+    Linear Extrap. Phase &
+    SpatialPadding $8\times8$ \\
+    & Reshape $64\times8\times8$ &&
+    Conv+ReLU $16\times9\times9$\\
+    &Phase Pool $8\times8$ & &
+    SpatialPadding $8\times8$\\
+    &&&Conv $1\times9\times9$\\
+   \hline
+\end{tabular}}
+  \caption{Summary of architectures} 
+  \label{tbl:arch} 
+  \end{tiny}
+\end{table}
+\end{frame} 
+
+\begin{frame} 
+\begin{centering} 
+\tiny Original \\
+\includegraphics[scale=0.3]{./Figures/Project2/taco/original.png}\\
+Interpolation/Extrapolation Without Uncertainty \\
+\includegraphics[scale=0.3]{./Figures/Project2/taco/siamese_interp_num.png} \hspace{0.25cm} 
+\includegraphics[scale=0.3]{./Figures/Project2/taco/interp_pool_best_reg.png}\\
+Interpolation/Extrapolation With Uncertainty \\
+\includegraphics[scale=0.3]{./Figures/Project2/taco/interp_nodelta.png} \hspace{0.25cm} 
+\includegraphics[scale=0.3]{./Figures/Project2/taco/interp_delta.png}\\
+\end{centering} 
+\end{frame} 
+
+\begin{frame}
+\begin{center} 
+\huge \color{blue} \emph{Thank You!}
+\end{center} 
+\end{frame}
+
+
 \end{document}
-
-
 
