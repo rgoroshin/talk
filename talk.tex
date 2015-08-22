@@ -160,7 +160,7 @@ $\downarrow$ \\
 $\cdots$\\ 
 $\downarrow$\\
 \centering
-$[\mbox{objects, orientations, positions, lighting, etc.}]$\\ \vspace{1.75cm} 
+$[\mbox{objects, orientations, positions, lighting, etc.}]$\\ \vspace{1cm} 
 \emph{\tiny{Zeiler and Fergus. ECCV 2014}}
 \end{frame} 
 
@@ -176,55 +176,15 @@ $[\mbox{objects, orientations, positions, lighting, etc.}]$\\ \vspace{1.75cm}
 \end{itemize} 
 \end{frame} 
 
-\begin{frame} 
-\frametitle{Sparse Features - Informativeness, Independence}
-\begin{center} 
-\includegraphics[scale=0.6]{./Figures/sparse2.pdf} \hspace{0.2cm}
-\includegraphics[scale=0.30]{./Figures/sparse_filters.png}
-\end{center} 
-\begin{eqnarray}
-\nonumber 
-L(x,W_e,W_d)= \sum_{i} \left(\underbrace{\|W_d ReLU(W_e x_i) - x_i\|^2}_{Reconstruction} +  \alpha \underbrace{ReLU(W_e x_i)}_{Sparsity} \right)
-\end{eqnarray}
-\begin{itemize} 
-\item{Learns an over-complete basis which reconstructs the data by linearly combining a small subset of the available elements}
-\item{Represents a local-linear model of the data manifold}
-\item{Features are roughly independent}
-\item{Highly unstable representation}
-\end{itemize} 
-\end{frame} 
-
-\begin{frame} 
-\frametitle{Similarity Metric Learning - Invariance}
-\centering
-\includegraphics[scale=0.4]{./Figures/drlim_diag.png}
-\begin{equation} 
-\nonumber
-L(x_i,x_j,W)=\left\{
-                \begin{array}{ll}
-                 \|G_W(x_i) - G_W(x_{j})\|_p, &\text{if $i$ similar to $j$}  \\
-                 \max(0,m-\|G_W(x_i) - G_W(x_{j})\|_p) &\text{if $i$ dissimilar to $j$}
-                \end{array}
-              \right.
-\end{equation} 
-\begin{columns}[T] % align columns
-\begin{column}{.6\textwidth}
-\begin{itemize} 
-\item{Global structure can be learned via local (stochastic) comparisons}
-\item{Repulsive term does not guarantee informative features (low-dimensional visualization)} 
-\item{$G_w()$ is the learned representation}   
-\end{itemize} 
-\emph{\tiny{Hadsell et al. CVPR 2006}}
-\end{column}%
-\begin{column}{.4\textwidth}
-\includegraphics[scale=0.2]{./Figures/mnist.png}
-\end{column}
-\end{columns}
-\end{frame}
-
 \begin{frame}
 \begin{center} 
-\huge \color{blue} \emph{Unsupervised Learning from Video}
+\huge \color{blue} \emph{Unsupervised Learning from Video} \newline 
+\end{center} 
+\begin{center} 
+\color{blue} \small{\emph{1-Unsupervised Learning of Spatiotemporally Coherent Metrics}\newline 
+Goroshin et al. http://arxiv.org/abs/1412.6056 \\ \vspace{0.2cm} 
+\color{blue} \emph{2-Learning to Linearize Under Uncertainty}\newline 
+Goroshin, Mathieu, LeCun. http://arxiv.org/abs/1506.03011} 
 \end{center} 
 \end{frame} 
 
@@ -234,14 +194,14 @@ L(x_i,x_j,W)=\left\{
 \includegraphics[scale=0.4]{./Figures/time.pdf}
 \end{center} 
 \begin{itemize} 
-\item{Temporal sequences reveal neighbors in the \emph{latent} space}
 \item{Natural videos are one-dimensional trajectories on the natural image manifold}
-\item{Time shows you who your neighbors are}
+\item{\emph{Time reveals who your semantic nearest neighbors are}}
+\item{Temporal coherence can be exploited as weak supervision}
 \end{itemize} 
 \end{frame} 
 
 \begin{frame} 
-\frametitle{Toy Example 1}
+\frametitle{Toy Example}
 \begin{center} 
 \includegraphics[scale=0.25]{./Figures/toy_video.png}
 \end{center} 
@@ -251,26 +211,11 @@ L(x_i,x_j,W)=\left\{
 \end{itemize} 
 \end{frame} 
 
-\begin{frame} 
-\frametitle{Toy Example 2}
-\begin{columns}[T] % align columns
-\begin{column}{.5\textwidth}
-DrLIM learns intrinsic factors of variation when trained on video \\ \vspace{0.25cm} 
-\includegraphics[scale=0.20]{./Figures/drlim_data.png} 
-\begin{itemize} \tiny \item{Learning features that decrease the variability between temporally adjacent samples are known as ``slow features''} 
-\tiny \item{Without additional constraints slow features collapse to constants}
-\end{itemize} 
-\end{column} 
-\begin{column}{.5\textwidth}
-\hspace{0.25cm} \tiny{Color-map Yaw} \hspace{0.8cm} \tiny{Color-map Roll} \\
-\includegraphics[scale=0.20]{./Figures/drlim.png}
-\end{column}
-\end{columns}
-\end{frame} 
-
 \begin{frame}
 \begin{center} 
 \huge \color{blue} \emph{Unsupervised Learning of Spatiotemporally Coherent Metrics}
+\\ \vspace{2.5cm} 
+\small{Goroshin et al. http://arxiv.org/abs/1412.6056}
 \end{center} 
 \end{frame}
 
@@ -287,6 +232,7 @@ L(x_t,x_{t'},W_e,W_d)= \sum_{\tau = \{t,t'\}} \left(\underbrace{\|W_d ReLU(W_e x
  + \underbrace{\beta \sum_{i=1}^K \left| \|ReLU(W_ex_t)\|^{P_i} - \|ReLU(W_ex_{t'})\|^{P_i} \right|}_{\mbox{\tiny Slowness after local $L^2$ pooling}}
 \end{eqnarray}}
 \end{center} 
+\tiny{Goroshin et al. http://arxiv.org/abs/1412.6056}
 \end{frame} 
 
 \begin{frame}
@@ -322,10 +268,10 @@ $\rightarrow$ Train convolutional features to learn a richer class of invariants
 \begin{center} 
 \begin{figure}
 \includegraphics[scale=0.40]{./Figures/Project1/youtube.png}
-\caption{Weakly segmented scenes from our YouTube dataset}
+\caption{Each row shows a segmented scene from our YouTube dataset}
 \end{figure}
 \end{center}
-\underline{Temporally Coherent Feature Space:} a feature space which induces the nearest neighbors to be the temporal neighbors (temporal invariance)   
+\underline{Temporally Coherent Feature Space:} a feature space which induces the nearest neighbors to be the frames from the same scene
 \end{frame} 
 
 \begin{frame}
@@ -346,7 +292,7 @@ $\rightarrow$ Train convolutional features to learn a richer class of invariants
 \includegraphics[scale=0.45]{./Figures/Project1/act_large_slow.png}
 \end{figure} 
 \end{center} 
-\underline{Left:} Activations are pooled \emph{across feature maps} in non-overlapping groups of four \\
+\underline{Left:} Activations are pooled \emph{across feature maps} in non-overlapping groups of four. \textbf{Features are grouped together to maximize temporal invariance} \\
 \underline{Right:} Activation frequency for corresponding feature over entire dataset
 \end{frame} 
 
@@ -383,6 +329,7 @@ This demonstrates that a \emph{semantically} coherent metric can be learned impl
 \frametitle{Shortcomings}
 \begin{itemize}
 \item{Layer-wise greedy training} 
+\item{Requires heuristic measure for hyper-parameter selection} 
 \item{Too many hyper-parameters require costly optimization} 
 \item{Partial reconstruction means that the final features may have lost information}
 \end{itemize} 
@@ -391,6 +338,8 @@ This demonstrates that a \emph{semantically} coherent metric can be learned impl
 \begin{frame}
 \begin{center} 
 \huge \color{blue} \emph{Learning to Linearize under Uncertainty}
+\\ \vspace{2.5cm} 
+\small{Goroshin, Mathieu, LeCun. http://arxiv.org/abs/1506.03011 } 
 \end{center} 
 \end{frame}
 
@@ -406,7 +355,9 @@ where $F_W()$ and $G_W()$ denote the encoder and decoder, respectively. \\
 L = \frac{1}{2}\| G_W(\mathbf [2 ~~-1] \begin{bmatrix}z^t&z^{t-1}\end{bmatrix}^T) - x^{t+1} \|^2_2
 \label{eqn:loss} 
 \end{equation} 
-\vspace{0.430cm} 
+$\rightarrow$ \textbf{Predict future frame via linear extrapolation in code space}
+\tiny{Goroshin, Mathieu, LeCun. http://arxiv.org/abs/1506.03011} 
+%\vspace{0.430cm} 
 \end{frame} 
 
 \begin{frame} 
@@ -421,6 +372,7 @@ where $F_W()$ and $G_W()$ denote the encoder and decoder, respectively. \\
 L = \frac{1}{2}\| G_W(\mathbf [2 ~~-1] \begin{bmatrix}z^t&z^{t-1}\end{bmatrix}^T) - x^{t+1} \|^2_2 - \lambda \frac{(z^t - z^{t-1})^T(z^{t+1} - z^t)}{\|z^t-z^{t-1}\| \|z^{t+1} - z^t\|}
 \label{eqn:loss} 
 \end{equation} 
+\tiny{Goroshin, Mathieu, LeCun. http://arxiv.org/abs/1506.03011} 
 \end{frame} 
 
 \begin{frame} 
@@ -429,7 +381,7 @@ L = \frac{1}{2}\| G_W(\mathbf [2 ~~-1] \begin{bmatrix}z^t&z^{t-1}\end{bmatrix}^T
 \includegraphics[scale=0.5]{./Figures/Project2/fig2.pdf} \\
 \begin{center} 
 What is the linearized feature of this data set? \\
-\textbf{Implicitly learn to track common patterns in the image}
+\textbf{Implicitly learn to track salient image features}
 \end{center} 
 \end{frame} 
 
@@ -485,37 +437,176 @@ Define an ``\emph{un-pooling}'' operation of the decoder that produces reconstru
 \includegraphics[scale=0.6]{./Figures/Project2/dec200.png} 
 \end{center} 
 \underline{Left:} Phase-pooling in non-overlapping groups (synthetic video) \\
-\underline{Right:} Phase-pooling in overlapping groups (natural video) 
+\underline{Right:} Phase-pooling in overlapping groups (natural video) \\ \vspace{0.5cm} 
+\textbf{Features are grouped together to minimize prediction error by implicitly tracking salient image features}
 \end{frame} 
 
 \begin{frame} 
 \frametitle{Addressing Uncertainty}
 \begin{itemize}
+\item Inherent uncertainty in temporal data renders $L^2$ error meaningless especially for long-term predictions 
 \item If multiple outcomes are present in the training set then minimizing the $L^2$ distance to these multiple outcomes induces the network to predict the \emph{average outcome} 
-\item Introduce latent variables $\delta$ to the prediction architecture that are not deterministic functions of the input
-\item The $\delta$-corrected code is defined as:
-\begin{equation} 
-\nonumber 
-\label{eqn:delta}
-\hat z^{t+1}_\delta =  z^{t} + (W_1 \delta) \odot [2~~-1]\begin{bmatrix}z^t&z^{t-1}\end{bmatrix}^T
-\end{equation}  
+\item Introduce latent slack variable $\delta$ that act to modulate the predicted code in order to switch between outcomes 
 \end{itemize}
-\centering
-\includegraphics[scale=0.5]{./Figures/Project2/delta_ambiguity.pdf} \\
+\begin{center} 
+\includegraphics[scale=0.5]{./Figures/Project2/delta_ambiguity.pdf} \hspace{0.5cm} 
+\includegraphics[scale=0.5]{./Figures/Project2/delta_diag_crop.pdf} 
+\end{center} 
 \end{frame} 
 
 \begin{frame} 
 \frametitle{Addressing Uncertainty}
+The $\delta$-corrected code is defined as:
+\begin{equation} 
+\nonumber 
+\label{eqn:delta}
+\hat z^{t+1}_\delta =  z^{t} + (W_1 \delta) \odot (z^t-z^{t-1})
+\end{equation}  
 The $\delta$-corrected loss is: 
 \begin{equation} 
 \nonumber 
 \label{eqn:delta_loss}
 L = \min\limits_\delta \| G_W(\hat z_\delta ^{t+1}) - x^{t+1} \|^2_2 - \lambda \frac{(z^t - z^{t-1})^T(z^{t+1} - z^t)}{\|z^t-z^{t-1}\| \|z^{t+1} - z^t\|} 
 \end{equation} 
+Before backproping through the encoder, the predicted is optimized using $\delta$ 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{NORB Experiment} 
+\begin{centering} 
+\includegraphics[scale=0.3]{./Figures/Project2/taco/original_num.png}\\
+\end{centering} 
+\begin{itemize}
+\item Simulate video via random trajectories in the latent space 
+\item Network is trained to predict the third frame from the two previous frames 
+\item To evaluate the \textbf{linearity and informativeness} of the representation: 1-interpolate/extrapolate new codes, 2-generate the corresponding sample using the decoder
+\end{itemize}  
+\end{frame} 
+
+\begin{frame} 
+\frametitle{NORB Interpolated Test Frames}
+\hspace{0.75cm} Baseline Siamese Network \hspace{1.25cm} Proposed Architecture\\
+\hspace{0.5cm}\includegraphics[scale=0.3]{./Figures/Project2/taco/siamese_interp_num.png} \hspace{0.5cm} 
+\includegraphics[scale=0.3]{./Figures/Project2/taco/interp_pool_best_reg.png}
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Simulated Uncertainty}
+\hspace{1cm} Without $\delta$ Correction \hspace{1.75cm} With $\delta$ Correction\\
+\hspace{0.5cm}\includegraphics[scale=0.3]{./Figures/Project2/taco/interp_nodelta.png} \hspace{0.5cm} 
+\includegraphics[scale=0.3]{./Figures/Project2/taco/interp_delta.png}\\ \vspace{0.5cm} 
+Simulate uncertainty by training on sequences with randomly skipped frames, i.e. train on $\{x^{t-1},x^t,x^{t+1}\}$ or $\{x^{t-1},x^t,x^{t+2}\}$ with equal probability.
+\end{frame} 
+
+\begin{frame}
+\frametitle{Summary} 
+\color{blue} Unsupervised Feature Learning
+\begin{itemize} 
+\item Supervised $\rightarrow$ explicit solutions
+\item Unsupervised $\rightarrow$ implicit solutions
+\item Explicit solutions are usually going to outperform implicit solutions, thus we need new evaluation criteria (e.g. transfer learning tasks) 
+\item Sparsity, independence, slowness, and linearity are just a few examples...There are probably many more generic priors out there! 
+\end{itemize} 
+\end{frame} 
+
+\begin{frame}
+\frametitle{Summary} 
+\color{blue} Unsupervised Learning of Spatiotemporally Coherent Metrics
+\begin{itemize} 
+\item Time is a source of weak supervision 
+\item Connection between slow features and metric learning 
+\item Not \emph{trully} unsupervised until a recipe is provided for automatically tuning hyper-parameters 
+\item Semantic coherence learned via temporal coherence 
+\end{itemize} 
+\end{frame} 
+
+\begin{frame}
+\frametitle{Summary} 
+\color{blue} Learning to Linearize under Uncertainty
+\begin{itemize} 
+\item Introduced linearizing features by formulating a prediction problem 
+\item Phase-Pooling
+\item Addressed uncertainty without resorting to probabilistic methods (require sampling)
+\end{itemize} 
+\end{frame} 
+
+\begin{frame}
+\begin{center} 
+\huge \color{blue} \emph{Thank You!}
+\end{center} 
+\end{frame}
+
+\begin{frame}
+\begin{center} 
+\huge \color{blue} \emph{Supplementary Material}
+\end{center} 
+\end{frame}
+
+\begin{frame} 
+\frametitle{Sparse Features - Informativeness, Independence}
+\begin{center} 
+\includegraphics[scale=0.6]{./Figures/sparse2.pdf} \hspace{0.2cm}
+\includegraphics[scale=0.30]{./Figures/sparse_filters.png}
+\end{center} 
+\begin{eqnarray}
+\nonumber 
+L(x,W_e,W_d)= \sum_{i} \left(\underbrace{\|W_d ReLU(W_e x_i) - x_i\|^2}_{Reconstruction} +  \alpha \underbrace{ReLU(W_e x_i)}_{Sparsity} \right)
+\end{eqnarray}
+\begin{itemize} 
+\item{Learns an over-complete basis which reconstructs the data by linearly combining a small subset of the available elements}
+\item{Represents a local-linear model of the data manifold}
+\item{Features are roughly independent}
+\item{Highly unstable representation}
+\end{itemize} 
+\end{frame} 
+
+\begin{frame} 
+\frametitle{Similarity Metric Learning - Invariance, Equivariance}
+\centering
+\includegraphics[scale=0.4]{./Figures/drlim_diag.png}
+\begin{equation} 
+\nonumber
+L(x_i,x_j,W)=\left\{
+                \begin{array}{ll}
+                 \|G_W(x_i) - G_W(x_{j})\|_p, &\text{if $i$ similar to $j$}  \\
+                 \max(0,m-\|G_W(x_i) - G_W(x_{j})\|_p) &\text{if $i$ dissimilar to $j$}
+                \end{array}
+              \right.
+\end{equation} 
+\begin{columns}[T] % align columns
+\begin{column}{.6\textwidth}
+\begin{itemize} 
+\item{Global structure can be learned via local (stochastic) comparisons}
+\item{Repulsive term does not guarantee informative features (low-dimensional visualization)} 
+\item{$G_w()$ is the learned representation}   
+\end{itemize} 
+\emph{\tiny{Hadsell et al. CVPR 2006}}
+\end{column}%
+\begin{column}{.4\textwidth}
+\includegraphics[scale=0.2]{./Figures/mnist.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame} 
+\frametitle{Temporal DrLIM Example}
+\begin{columns}[T] % align columns
+\begin{column}{.5\textwidth}
+DrLIM learns intrinsic factors of variation when trained on video \\ \vspace{0.25cm} 
+\includegraphics[scale=0.20]{./Figures/drlim_data.png} 
+\begin{itemize} \tiny \item{Learning features that decrease the variability between temporally adjacent samples are known as ``slow features''} 
+\tiny \item{Without additional constraints slow features collapse to constants}
+\end{itemize} 
+\end{column} 
+\begin{column}{.5\textwidth}
+\hspace{0.25cm} \tiny{Color-map Yaw} \hspace{0.8cm} \tiny{Color-map Roll} \\
+\includegraphics[scale=0.20]{./Figures/drlim.png}
+\end{column}
+\end{columns}
 \end{frame} 
 
 \begin{frame}  
-\frametitle{Architectures}
+\frametitle{Prediction Architectures}
 \begin{table} 
 \begin{tiny}
 \centering
@@ -583,25 +674,6 @@ L = \min\limits_\delta \| G_W(\hat z_\delta ^{t+1}) - x^{t+1} \|^2_2 - \lambda \
   \end{tiny}
 \end{table}
 \end{frame} 
-
-\begin{frame} 
-\begin{centering} 
-\tiny Original \\
-\includegraphics[scale=0.3]{./Figures/Project2/taco/original.png}\\
-Interpolation/Extrapolation Without Uncertainty \\
-\includegraphics[scale=0.3]{./Figures/Project2/taco/siamese_interp_num.png} \hspace{0.25cm} 
-\includegraphics[scale=0.3]{./Figures/Project2/taco/interp_pool_best_reg.png}\\
-Interpolation/Extrapolation With Uncertainty \\
-\includegraphics[scale=0.3]{./Figures/Project2/taco/interp_nodelta.png} \hspace{0.25cm} 
-\includegraphics[scale=0.3]{./Figures/Project2/taco/interp_delta.png}\\
-\end{centering} 
-\end{frame} 
-
-\begin{frame}
-\begin{center} 
-\huge \color{blue} \emph{Thank You!}
-\end{center} 
-\end{frame}
 
 
 \end{document}
