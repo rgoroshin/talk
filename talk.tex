@@ -1,6 +1,7 @@
 \documentclass{beamer}
 \usepackage[latin1]{inputenc}
 %\usetheme[noshadow,nonav,nologo]{NYU}
+\usenavigationsymbolstemplate{}
 \usetheme[numbers]{NYU}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -22,7 +23,7 @@
     \futurelet \reserved@a \@xhline}
 
 \title{Unsupervised Learning of Deep Feature Hierarchies from Unlabeled Video Data}
-\date{ \tiny Courant Institute of Mathematical Sciences \\ \vspace{0.33cm} \tiny September 2015} 
+\date{ Courant Institute of Mathematical Sciences \\ \vspace{0.2cm} September 2015} 
 \author{Ross Goroshin}
 
 \begin{document}
@@ -32,7 +33,7 @@
 
 \begin{frame}
 \begin{center} 
-\huge \color{blue} \emph{Projects Before 2010}
+\huge \color{blue} \emph{Research Background}
 \end{center} 
 \end{frame} 
 
@@ -99,6 +100,8 @@ The engineer must manually plug all the ``leaks'' in the pipeline \\ \vspace{0.5
 \item{Leverage machine learning to plug the leaks with data}
 \item From engineering features $\rightarrow$ engineering \emph{feature learning architectures}   
 \end{itemize} 
+\centering
+\color{blue}\rule{\linewidth}{2pt} \tiny{Krizhevsky, \emph{NIPS 2012}} 
 \includegraphics[scale=0.25]{./Figures/alexNet.jpg}
 \end{column}%
 \hfill%
@@ -152,8 +155,12 @@ The engineer must manually plug all the ``leaks'' in the pipeline \\ \vspace{0.5
 \includegraphics[scale=0.25]{./Figures/mattfeatures.jpeg}\\
 \centering
 $\downarrow$\\
+$[\mbox{Third Layer Features}]$\\
+$\downarrow$ \\
+$\cdots$\\ 
+$\downarrow$\\
 \centering
-$[\mbox{objects, orientations, positions, lighting, etc.}]$\\ \vspace{2cm} 
+$[\mbox{objects, orientations, positions, lighting, etc.}]$\\ \vspace{1.75cm} 
 \emph{\tiny{Zeiler and Fergus. ECCV 2014}}
 \end{frame} 
 
