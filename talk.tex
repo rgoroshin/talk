@@ -182,9 +182,9 @@ $[\mbox{objects, orientations, positions, lighting, etc.}]$\\ \vspace{1cm}
 \end{center} 
 \begin{center} 
 \color{blue} \small{\emph{1-Unsupervised Learning of Spatiotemporally Coherent Metrics}\newline 
-Goroshin et al. http://arxiv.org/abs/1412.6056 \\ \vspace{0.2cm} 
+Goroshin et al. http://arxiv.org/abs/1412.6056 \\ICCV2015-Accepted \\ \vspace{0.2cm} 
 \color{blue} \emph{2-Learning to Linearize Under Uncertainty}\newline 
-Goroshin, Mathieu, LeCun. http://arxiv.org/abs/1506.03011} 
+Goroshin, Mathieu, LeCun. http://arxiv.org/abs/1506.03011} \\ NIPS2015-Under Review 
 \end{center} 
 \end{frame} 
 
@@ -215,7 +215,7 @@ Goroshin, Mathieu, LeCun. http://arxiv.org/abs/1506.03011}
 \begin{center} 
 \huge \color{blue} \emph{Unsupervised Learning of Spatiotemporally Coherent Metrics}
 \\ \vspace{2.5cm} 
-\small{Goroshin et al. http://arxiv.org/abs/1412.6056}
+\small{Goroshin et al. http://arxiv.org/abs/1412.6056 \\ ICCV2015}
 \end{center} 
 \end{frame}
 
@@ -233,17 +233,6 @@ L(x_t,x_{t'},W_e,W_d)= \sum_{\tau = \{t,t'\}} \left(\underbrace{\|W_d ReLU(W_e x
 \end{eqnarray}}
 \end{center} 
 \tiny{Goroshin et al. http://arxiv.org/abs/1412.6056}
-\end{frame} 
-
-\begin{frame}
-\frametitle{Intuitive Interpretation}
-\centering
-\includegraphics[scale=0.65]{./Figures/SF2.pdf} \\
-\begin{itemize} 
-\item{\underline{Reconstruction} $\rightarrow$ promotes informative features}
-\item{\underline{Sparsity} $\rightarrow$ promotes independent features}
-\item{\underline{Slowness} $\rightarrow$ promotes invariant features}
-\end{itemize} 
 \end{frame} 
 
 \begin{frame}
@@ -603,6 +592,17 @@ DrLIM learns intrinsic factors of variation when trained on video \\ \vspace{0.2
 \includegraphics[scale=0.20]{./Figures/drlim.png}
 \end{column}
 \end{columns}
+\end{frame} 
+
+\begin{frame}
+\frametitle{Intuitive Interpretation of Slow Features}
+\centering
+\includegraphics[scale=0.65]{./Figures/SF2.pdf} \\
+\begin{itemize} 
+\item{\underline{Reconstruction} $\rightarrow$ promotes informative features}
+\item{\underline{Sparsity} $\rightarrow$ promotes independent features}
+\item{\underline{Slowness} $\rightarrow$ promotes invariant features}
+\end{itemize} 
 \end{frame} 
 
 \begin{frame}  
